@@ -1,0 +1,7 @@
+.workspace {
+    display: grid;
+    grid-template-rows: 50px 1fr;
+    border: 1px solid var(--gray-light);
+    border-radius: 5px;
+    overflow: hidden;
+}

@@ -1,0 +1,52 @@
+.card {
+    background-color: var(--white);
+    cursor: pointer;
+    padding: 8px 5px;
+
+    font-size: 13px;
+    overflow: hidden;
+    border: 1px solid var(--gray-light);
+
+    flex: 1;
+}
+
+.isEarlier {
+    background-color: var(--beige);
+}
+
+.isToday .dayHeader {
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 1px 2px;
+    font-weight: 600;
+}
+
+.selected {
+    background-color: var(--primary-light);
+    border: 1px solid var(--primary);
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.dayHeader {
+    font-size: 14px;
+}
+
+.monthHeader {
+    color: var(--gray);
+}
+
+.tasks {
+    margin-top: 20px;
+    text-align: center;
+    background-color: var(--primary-light);
+    border-radius: 5px;
+
+    font-size: 14px;
+    font-weight: 500;
+}

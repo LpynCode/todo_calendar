@@ -1,0 +1,39 @@
+.item {
+    display: flex;
+
+    background-color: var(--primary-light);
+    border-radius: 5px;
+
+    padding: 4px 10px;
+
+    gap: 10px;
+
+    cursor: pointer;
+}
+
+.times {
+    display: flex;
+    flex-direction: column;
+}
+
+.main_time {
+    font-size: 14px;
+}
+
+.duration {
+    font-size: 12px;
+    color: var(--gray);
+}
+
+.name {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.border_left {
+    height: 100%;
+    width: 6px;
+    border-radius: 3px 0 0 3px;
+
+    background-color: var(--primary);
+}

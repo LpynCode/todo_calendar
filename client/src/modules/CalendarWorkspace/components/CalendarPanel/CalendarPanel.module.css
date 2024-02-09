@@ -1,0 +1,12 @@
+.panel {
+    display: flex;
+    align-items: center;
+    padding: 7px 10px;
+    gap: 10px;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.up_down_btns {
+    display: flex;
+    gap: 4px;
+}

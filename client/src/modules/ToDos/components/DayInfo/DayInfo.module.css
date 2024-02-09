@@ -1,0 +1,14 @@
+.container {
+    display: grid;
+    grid-template-rows: 50px 1fr;
+    background-color: var(--white);
+    border: 1px solid var(--gray-light);
+    border-radius: 5px;
+    user-select: none;
+}
+
+.header {
+    font-weight: 500;
+    padding: 12px;
+    border-bottom: 1px solid var(--gray-light);
+}

@@ -1,0 +1,35 @@
+.form {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.header {
+    font-size: 22px;
+    text-align: center;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.footer {
+    text-align: center;
+    font-size: 13px;
+}
+
+.footer a {
+    text-decoration: none;
+}
+
+.errorMessage {
+    transform: scale(1);
+    transition: all 5s;
+    font-size: 12px;
+    text-align: center;
+    color: var(--red);
+}

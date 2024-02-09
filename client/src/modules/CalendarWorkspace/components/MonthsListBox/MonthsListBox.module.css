@@ -1,0 +1,65 @@
+.week_days_container {
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid var(--gray-light);
+    border-radius: 5px;
+    position: absolute;
+    background-color: var(--white);
+    margin-top: 10px;
+    padding: 0;
+
+    z-index: 1;
+}
+
+.header_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.week_days_header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    margin: 2px 5px 0 5px;
+}
+
+.week_days_group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.week_day {
+    margin: 4px;
+    cursor: pointer;
+    padding: 5px;
+    text-align: center;
+    border-radius: 4px;
+
+    transition: background-color 0.3s;
+}
+
+.week_day:hover {
+    background-color: var(--gray-light);
+}
+
+.list_button {
+    font-size: 17px !important;
+    font-weight: 600;
+    gap: 7px;
+}
+
+.up_down_year_buttons {
+    display: flex;
+    gap: 4px;
+}
+
+.arrow_down {
+    width: 17px;
+    transform: rotate(-180deg);
+}

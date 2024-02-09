@@ -1,0 +1,38 @@
+.item {
+    font-size: 12px;
+    position: absolute;
+
+    background-color: var(--primary-light-hover);
+
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+
+    pointer-events: all;
+
+    cursor: pointer;
+}
+
+.rescheduled_left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left-style: none;
+}
+
+.rescheduled_interval_start {
+    color: var(--gray);
+    margin: 0 10px 0 2px;
+    font-weight: 500;
+}
+
+.rescheduled_interval_end {
+    color: var(--gray);
+    font-weight: 500;
+    margin: 0 2px 0 10px;
+    float: right;
+}
+
+.reschedule_right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right-style: none;
+}

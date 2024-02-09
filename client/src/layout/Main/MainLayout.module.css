@@ -1,0 +1,13 @@
+.header {
+    max-width: 1440px;
+    height: 64px;
+    margin: 0 auto;
+}
+
+
+
+.content {
+    max-width: 1440px;
+    height: calc(100vh - 64px);
+    margin: 0 auto;
+}
