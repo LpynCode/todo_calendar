@@ -4,15 +4,12 @@ import cn from 'classnames';
 import { ForwardedRef, forwardRef } from 'react';
 
 
-export const Input = forwardRef(({ icon, error, labelName, className, ...props }: InputProps, ref: ForwardedRef<HTMLInputElement>) => {
-
-	const onClickWrapper = () => {
-		console.log(ref);
-		
-	};
+export const Input = forwardRef((
+	{ icon, error, labelName, className, ...props }: InputProps, ref: ForwardedRef<HTMLInputElement>
+) => {
 
 	return (
-		<div className={cn(className, styles.inputWrapper)} onClick={onClickWrapper}>
+		<div className={cn(className, styles.inputWrapper)}>
 			<span className={styles.icon}>
 				{icon}
 			</span>

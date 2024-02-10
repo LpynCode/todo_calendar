@@ -15,16 +15,19 @@ export const CalendarItem = ({ item, ...props }: CalendarItemProps) => {
 	};
 	
 	return (
-		<div className={
-			cn(styles.card,
-				{
-					[styles.selected]: compareDates(item, selectedDay),
-					[styles.isEarlier]: isEarlierToday(item),
-					[styles.isToday]: compareDates(item, getTodayDate())
-				}
-			)
+		<div 
+			className={
+				cn(styles.card,
+					{
+						[styles.selected]: compareDates(item, selectedDay),
+						[styles.isEarlier]: isEarlierToday(item),
+						[styles.isToday]: compareDates(item, getTodayDate())
+					}
+				)
 			
-		} onClick={onClick} {...props}>
+			} 
+			onClick={onClick} {...props}
+		>
 			<div className={styles.title}>
 				<span className={styles.dayHeader}>{addZeroFormatter(item.day)}</span>
 				{item.day === 1 && <span className={styles.monthHeader}>{item.month.name.toUpperCase()}</span>}

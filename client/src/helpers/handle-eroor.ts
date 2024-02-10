@@ -5,6 +5,5 @@ import { AxiosError } from 'axios';
 export const handleError = (error: AxiosError) => {
 	if(error?.response?.status === 401) {
 		useAuthStore.getState().logout();
-		console.log('auth error');
 	}
 };

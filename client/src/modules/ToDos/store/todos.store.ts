@@ -9,6 +9,7 @@ import { IToDoCalendarItem } from '@/modules/ToDos/types/todo-calendar.interface
 import { generateCommonDate } from '@/helpers/generate-common-date';
 import { endOfDay, format, isWithinInterval, startOfDay } from 'date-fns';
 import { IDate } from '@/interfaces/date.interface';
+import { getCalendarInterval } from '@/modules/CalendarWorkspace/helpers/generateCalendar';
 
 
 interface ToDosState extends IAsyncState {
@@ -16,7 +17,7 @@ interface ToDosState extends IAsyncState {
     todosOnSelectedDay: IToDo[];
 	todosTable: IToDoCalendarItem[][];
 	setTodosOnSelectedDay: (day: IDate) => void;
-    fetchToDos: () => Promise<void>;
+    fetchToDos: (monthIndex: number, year: number) => Promise<void>;
 }
 
 export const useToDosStore = create<ToDosState>((set, get) => ({
@@ -34,16 +35,15 @@ export const useToDosStore = create<ToDosState>((set, get) => ({
 			)
 		});
 	},
-	fetchToDos: async () => {
+	fetchToDos: async (monthIndex: number, year: number) => {
 		try {
 			set({ isLoading: true });
-			const { calendar: { items }, selectedDay } = useCalendarStore.getState();
-			const dateStart = format(generateCommonDate(items[0][0]), 'yyyy-LL-dd');
-			const dateEnd = format(generateCommonDate(items[items.length - 1][6]), 'yyyy-LL-dd');
-			const data = await fetchToDos(dateStart, dateEnd);
+			const { selectedDay } = useCalendarStore.getState();
+			const { start, end } = getCalendarInterval(monthIndex, year);
+			const data = await fetchToDos(format(start, 'yyyy-LL-dd'), format(end, 'yyyy-LL-dd'));
 			set({ 
 				todos: data,
-				todosTable: getToDoTable(data, items),  
+				todosTable: getToDoTable(data, { start, end }),  
 				isLoading: false, 
 				isSuccess: true 
 			});

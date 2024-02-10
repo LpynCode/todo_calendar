@@ -1,40 +1,36 @@
 import { IDate } from '@/interfaces/date.interface';
-import { generateDate } from '../helpers/generateDate';
-import { getDay, getDaysInMonth } from 'date-fns';
+import { generateDate } from '../../../helpers/generateDate';
+import { 
+	Interval,
+	eachDayOfInterval, 
+	eachWeekOfInterval, 
+	endOfMonth, 
+	isMonday, 
+	isSunday, 
+	nextSunday, 
+	previousMonday, 
+} from 'date-fns';
 
-export const generateCalendarDays = (monthIndex: number, year: number): Array<Array<IDate>> => {
-	const countDays = getDaysInMonth(new Date(year, monthIndex, 1));
-	const days: Array<Array<IDate>> = [];
-    
-	const firstWeekDay = getDay(new Date(year, monthIndex, 0)) + 1;
-	
-	let line: IDate[] = [];
-	let date: IDate;
-	
-	for (let i = firstWeekDay - 1; i > 0; i--) {
-		const dayNumber = getDaysInMonth(new Date(year, monthIndex - 1, 1)) - i;
-		date = generateDate(dayNumber + 1, monthIndex - 1, year);
-		line.push(date);
-	}
-    
-	for (let i = 0; i < countDays; i++) {
-		date = generateDate(i + 1, monthIndex, year);
-		line.push(date);
-		if(date.weekDay.number == 7) {
-			days.push(line);
-			line = [];
-		}
-	}
-    
-	let i = date.weekDay.number;
-	let k = 0;
-	while (i < 7) {
-		date = generateDate(k + 1, monthIndex + 1, year);
-		line.push(date);
-		k++;
-		i++;
-	}
-	if(line.length == 7) days.push(line);
+export const generateCalendarDays = (monthIndex: number, year: number): IDate[][] => {
+	const range = getCalendarInterval(monthIndex, year);
 
-	return days;
+	const lines = getCalendarLines(range);
+	const calendar = [];
+	for(const interval of lines) {
+		calendar.push(eachDayOfInterval(interval).map((day) => generateDate(day)));
+	}
+	return calendar;
+};
+
+export const getCalendarInterval = (monthIndex: number, year: number): Interval<Date> => {
+	const firstDay = new Date(year, monthIndex, 1);
+	const lastDay = endOfMonth(new Date(year, monthIndex));
+
+	const start = isMonday(firstDay) ? firstDay : previousMonday(firstDay);
+	const end = isSunday(lastDay) ? lastDay : nextSunday(lastDay);
+	return { start, end };
+}; 
+
+export const getCalendarLines = (interval: Interval<Date>): Interval<Date>[] => {
+	return eachWeekOfInterval(interval).map((sunday) => ({ start: previousMonday(sunday), end: sunday })).splice(1);
 };

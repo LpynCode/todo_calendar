@@ -2,7 +2,7 @@ import { getTodayDate } from '../helpers/today';
 import { ICalendar } from '../types/calendar.interface';
 import { create } from 'zustand';
 import { validateMonthAndYear } from '../helpers/validateMonthAndYear';
-import { generateDate } from '@/modules/CalendarWorkspace/helpers/generateDate';
+import { generateDate } from '@/helpers/generateDate';
 import { IDate } from '@/interfaces/date.interface';
 import { generateCalendarDays } from '@/modules/CalendarWorkspace/helpers/generateCalendar';
 import { MONTHS } from '@/constants/months.constants';
@@ -40,7 +40,7 @@ export const useCalendarStore = create<CalendarState>((set, get) => ({
 		
 		set({ 
 			calendar: { month: MONTHS[monthValidated], year: yearValidated, items: data }, 
-			selectedDay: generateDate(1, monthValidated, yearValidated) 
+			selectedDay: generateDate(new Date(yearValidated, monthValidated, 1)) 
 		});
 	}
 })); 

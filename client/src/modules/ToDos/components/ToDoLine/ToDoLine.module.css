@@ -1,7 +1,6 @@
 .line {
     position: absolute;
-    pointer-events: none;
-    height: 70%;
+    top: 30px;
     left: 0;
     right: 0;
     bottom: 0;
