@@ -23,13 +23,23 @@ export const getToDoTable = (todos: IToDo[], calendarInterval: Interval<Date>): 
 	return table;
 };
 
+export const getDraggableToDoRows = (todo: IToDo, calendarInterval: Interval<Date>): IToDoCalendarItem[] => {
+	const rows: IToDoCalendarItem[] = [];
+
+	const calendarRows = getCalendarLines(calendarInterval);
+
+	for(const row of calendarRows) {
+		rows.push(getToDoCalendarItem(todo, row, 0));
+	}
+	return rows;
+};
+
 const getToDoLine = ({ start, end }: Interval<Date>, todos: IToDo[]): IToDoCalendarItem[] => {
 
 	const line: IToDoCalendarItem[] = [];
 
 	for(const todo of todos) {
-		if(compareDesc(endOfDay(end), generateCommonDate(todo.startTime)) > 0) break;
-
+		if(compareDesc(end, generateCommonDate(todo.startTime)) > 0) break;
 		const topIndex =  getTopIndexInLine(todo, line);
 		const todoItem = getToDoCalendarItem(todo, { start, end }, topIndex);
 		if(todoItem) {
@@ -77,7 +87,7 @@ export const getToDoCalendarItem = (todo: IToDo, interval: Interval<Date>, topIn
 			rescheduleRight: true
 		};
 	}
-	return;
+	return null;
 };
 
 const getTopIndexInLine = ({ startTime, endTime }: IToDo, line: IToDoCalendarItem[]) => {

@@ -4,11 +4,13 @@ import { create } from 'zustand';
 import { validateMonthAndYear } from '../helpers/validateMonthAndYear';
 import { generateDate } from '@/helpers/generateDate';
 import { IDate } from '@/interfaces/date.interface';
-import { generateCalendarDays } from '@/modules/CalendarWorkspace/helpers/generateCalendar';
+import { generateCalendarDays, getCalendarInterval } from '@/modules/CalendarWorkspace/helpers/generateCalendar';
 import { MONTHS } from '@/constants/months.constants';
+import { Interval } from 'date-fns';
 
 interface CalendarState {
     calendar: ICalendar;
+	calendarInterval: Interval<Date>;
 	selectedDay: IDate;
 	setSelectedDay: (date: IDate) => void;
 	setToday: () => void;
@@ -23,16 +25,18 @@ export const useCalendarStore = create<CalendarState>((set, get) => ({
 		year: today.year,
 		items: generateCalendarDays(today.month.number - 1, today.year)
 	},
+	calendarInterval: getCalendarInterval(today.month.number - 1, today.year),
 	selectedDay: today,
 	setSelectedDay: (date: IDate) => {
 		set({ selectedDay: date });
 	},
 	setToday: () => {
 		const todayDate = getTodayDate();
-		if(today.month.number !== get().calendar.month.number || today.year !== get().calendar.year) {
-			get().fetchCalendar(today.month.number - 1, today.year);
+		const { calendar: { month, year }, setSelectedDay, fetchCalendar } = get();
+		if(today.month.number !== month.number || today.year !== year) {
+			fetchCalendar(today.month.number - 1, today.year);
 		}
-		get().setSelectedDay(todayDate);
+		setSelectedDay(todayDate);
 	},
 	fetchCalendar: (monthIndex: number, year:number) => {
 		const [monthValidated, yearValidated] = validateMonthAndYear(monthIndex, year);
@@ -40,6 +44,7 @@ export const useCalendarStore = create<CalendarState>((set, get) => ({
 		
 		set({ 
 			calendar: { month: MONTHS[monthValidated], year: yearValidated, items: data }, 
+			calendarInterval: getCalendarInterval(monthValidated, yearValidated),
 			selectedDay: generateDate(new Date(yearValidated, monthValidated, 1)) 
 		});
 	}

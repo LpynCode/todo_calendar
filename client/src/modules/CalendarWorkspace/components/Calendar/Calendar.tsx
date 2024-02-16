@@ -14,7 +14,7 @@ export const Calendar = (props: CalendarProps) => {
 	const { fetchToDos } = useToDosStore();
 
 	useEffect(() => {
-		fetchToDos(calendar.month.number - 1, calendar.year);
+		fetchToDos();
 	}, [calendar.items, calendar.month, calendar.year, fetchToDos]);
 
 	return(

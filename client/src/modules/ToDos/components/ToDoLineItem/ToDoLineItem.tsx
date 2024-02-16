@@ -1,38 +1,49 @@
-import { ToDoLineItemProps } from '@/modules/ToDos/components/ToDoLineItem/ToDoLineItem.props';
+import { ToDoLineItemProps } from './ToDoLineItem.props';
 import styles from './ToDoLineItem.module.css';
 import cn from 'classnames';
-import { CALENDAR_ITEM_HEIGHT } from '@/modules/ToDos/constants/todo-calendar-item-height';
+import { CALENDAR_ITEM_HEIGHT } from '../../constants/todo-calendar-item-height';
 import { addZeroFormatter } from '@/helpers/add-zero-formatter';
-import { DragEvent } from 'react';
-
+import { DragEvent, useState } from 'react';
+import { useDraggableToDoStore } from '@/modules/ToDos/store/draggable-todo.store';
 
 export const ToDoLineItem = (
-	{ item: { length, leftIndex, topIndex, todo, rescheduledLeft, rescheduleRight }, ...props }: ToDoLineItemProps ) => {
+	{ 
+		item: { length, leftIndex, topIndex, todo, rescheduledLeft, rescheduleRight }, 
+		rowIndex,
+		className,
+		...props 
+	}: ToDoLineItemProps 
+) => {
+
+	const { setToDo } = useDraggableToDoStore();
+	const [isDragged, setIsDragged ] = useState<boolean>(false);
 
 	const onDragStart = (e: DragEvent<HTMLDivElement>) => {
 		const el = document.createElement('div');
 		el.style.display = 'none';
 		e.dataTransfer.setDragImage(el, 0, 0);
-		e.dataTransfer.setData('text/plain', 'hello');
-		console.log('start');
 	};
 
-	const onDragEnd = () => {
-		console.log('end');
+	const onDrag = (e: DragEvent<HTMLDivElement>) => {
+		setToDo(todo, rowIndex, e.clientX);
+		setIsDragged(true);
 	};
+
 
 	return (
 		<div 
 			draggable={true}
 			onDragStart={onDragStart}
-			onDragEnd={onDragEnd}
+			onDrag={onDrag}
 			className={
 				cn(
+					className,
 					styles.item,
 					{ 
+						[styles.isDragged]: isDragged,
 						[styles.rescheduled_left]: rescheduledLeft,
 						[styles.reschedule_right]: rescheduleRight,
-					}
+					},
 				)
 			} 
 			style={

@@ -36,3 +36,7 @@
     border-bottom-right-radius: 0;
     border-right-style: none;
 }
+
+.isDragged {
+    opacity: 0 !important;
+}

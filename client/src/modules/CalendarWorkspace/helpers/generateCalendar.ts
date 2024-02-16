@@ -4,6 +4,7 @@ import {
 	Interval,
 	eachDayOfInterval, 
 	eachWeekOfInterval, 
+	endOfDay, 
 	endOfMonth, 
 	isMonday, 
 	isSunday, 
@@ -28,9 +29,11 @@ export const getCalendarInterval = (monthIndex: number, year: number): Interval<
 
 	const start = isMonday(firstDay) ? firstDay : previousMonday(firstDay);
 	const end = isSunday(lastDay) ? lastDay : nextSunday(lastDay);
-	return { start, end };
+	return { start, end: endOfDay(end) };
 }; 
 
 export const getCalendarLines = (interval: Interval<Date>): Interval<Date>[] => {
-	return eachWeekOfInterval(interval).map((sunday) => ({ start: previousMonday(sunday), end: sunday })).splice(1);
+	return eachWeekOfInterval(interval).map((sunday) => ({ 
+		start: previousMonday(sunday), end: endOfDay(sunday) 
+	})).splice(1);
 };

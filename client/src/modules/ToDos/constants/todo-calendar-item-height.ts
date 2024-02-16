@@ -1,3 +1,3 @@
 
 
-export const CALENDAR_ITEM_HEIGHT = 16;
+export const CALENDAR_ITEM_HEIGHT = 18;
