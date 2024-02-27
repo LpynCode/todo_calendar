@@ -1,5 +1,5 @@
 import { IToDo } from '@/interfaces/todo.interface';
-import { fetchToDos } from '../api/fetch-todos';
+import { fetchToDos, updateToDo } from '../api/todos-api';
 import { create } from 'zustand';
 import { handleError } from '@/helpers/handle-eroor';
 import { IAsyncState } from '@/interfaces/async-state.interface';
@@ -7,7 +7,7 @@ import { getToDoTable } from '@/modules/ToDos/helpers/todo-table';
 import { useCalendarStore } from '@/modules/CalendarWorkspace/store/calendar.store';
 import { IToDoCalendarItem } from '@/modules/ToDos/types/todo-calendar.interface';
 import { generateCommonDate } from '@/helpers/generate-common-date';
-import { endOfDay, format, isWithinInterval, startOfDay } from 'date-fns';
+import { compareAsc, endOfDay, format, isWithinInterval, startOfDay } from 'date-fns';
 import { IDate } from '@/interfaces/date.interface';
 
 interface ToDosState extends IAsyncState {
@@ -15,6 +15,7 @@ interface ToDosState extends IAsyncState {
 	todosOnSelectedDay: IToDo[];
 	todosTable: IToDoCalendarItem[][];
 	setTodosOnSelectedDay: (day: IDate) => void;
+	updateToDo: (todo: IToDo) => Promise<void>;
 	fetchToDos: () => Promise<void>;
 }
 
@@ -34,6 +35,28 @@ export const useToDosStore = create<ToDosState>((set, get) => ({
 				}),
 			),
 		});
+	},
+	updateToDo: async (todo: IToDo) => {
+		try {
+			set({ isLoading: true });
+			const data = await updateToDo(todo);
+
+			const { calendarInterval } = useCalendarStore.getState();
+			const todos = get().todos.filter((el) => el.id != data.id);
+			const updated = [...todos, data].sort((a, b) =>
+				compareAsc(generateCommonDate(a.startTime), generateCommonDate(b.startTime)),
+			);
+			console.log(updated);
+			set({
+				todos: updated,
+				todosTable: getToDoTable(updated, calendarInterval),
+				isLoading: false,
+				isSuccess: true,
+			});
+		} catch (e) {
+			set({ errorMessage: e.response });
+			handleError(e);
+		}
 	},
 	fetchToDos: async () => {
 		try {

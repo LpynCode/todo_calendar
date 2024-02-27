@@ -1,15 +1,15 @@
 import { IDate } from '@/interfaces/date.interface';
-import { generateDate } from '../../../helpers/generateDate';
-import { 
+import { generateDate } from '../../../helpers/generate-date';
+import {
 	Interval,
-	eachDayOfInterval, 
-	eachWeekOfInterval, 
-	endOfDay, 
-	endOfMonth, 
-	isMonday, 
-	isSunday, 
-	nextSunday, 
-	previousMonday, 
+	eachDayOfInterval,
+	eachWeekOfInterval,
+	endOfDay,
+	endOfMonth,
+	isMonday,
+	isSunday,
+	nextSunday,
+	previousMonday,
 } from 'date-fns';
 
 export const generateCalendarDays = (monthIndex: number, year: number): IDate[][] => {
@@ -17,7 +17,7 @@ export const generateCalendarDays = (monthIndex: number, year: number): IDate[][
 
 	const lines = getCalendarLines(range);
 	const calendar = [];
-	for(const interval of lines) {
+	for (const interval of lines) {
 		calendar.push(eachDayOfInterval(interval).map((day) => generateDate(day)));
 	}
 	return calendar;
@@ -30,10 +30,13 @@ export const getCalendarInterval = (monthIndex: number, year: number): Interval<
 	const start = isMonday(firstDay) ? firstDay : previousMonday(firstDay);
 	const end = isSunday(lastDay) ? lastDay : nextSunday(lastDay);
 	return { start, end: endOfDay(end) };
-}; 
+};
 
 export const getCalendarLines = (interval: Interval<Date>): Interval<Date>[] => {
-	return eachWeekOfInterval(interval).map((sunday) => ({ 
-		start: previousMonday(sunday), end: endOfDay(sunday) 
-	})).splice(1);
+	return eachWeekOfInterval(interval)
+		.map((sunday) => ({
+			start: previousMonday(sunday),
+			end: endOfDay(sunday),
+		}))
+		.splice(1);
 };

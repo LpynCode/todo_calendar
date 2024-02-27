@@ -1,14 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateTodoDto } from './dtos/create-todo.dto';
+import { CreateToDoDto } from './dtos/create-todo.dto';
 import { reformatToDo } from 'src/helpers/reformatToDo';
+import { UpdateToDoDto } from 'src/todos/dtos/update-todo.dto';
 
 @Injectable()
 export class ToDosService {
 	constructor(private readonly prismaService: PrismaService) {}
 
-	async createTodo(data: CreateTodoDto) {
+	async createToDo(data: CreateToDoDto) {
 		return this.prismaService.toDoModel.create({ data: { ...data } });
+	}
+
+	async updateToDo({ id, userId, ...data }: UpdateToDoDto) {
+		const toDoModel = await this.prismaService.toDoModel.update({
+			where: { id, userId },
+			data,
+		});
+		return reformatToDo(toDoModel);
 	}
 
 	async getBetweenDates(userId: number, dateStart: Date, dateEnd: Date) {

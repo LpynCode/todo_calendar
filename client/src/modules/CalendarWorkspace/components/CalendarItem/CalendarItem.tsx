@@ -2,7 +2,7 @@ import { CalendarItemProps } from './CalendarItem.props';
 import styles from './CalendarItem.module.css';
 import cn from 'classnames';
 import { isEarlierToday } from '../../helpers/isEarlierToday';
-import { compareDates } from '@/helpers/compareDates';
+import { compareDates } from '@/helpers/compare-dates';
 import { getTodayDate } from '../../helpers/today';
 import { addZeroFormatter } from '@/helpers/add-zero-formatter';
 import { useCalendarStore } from '../../store/calendar.store';

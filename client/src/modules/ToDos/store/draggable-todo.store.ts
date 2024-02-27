@@ -1,5 +1,5 @@
 import { generateCommonDate } from '@/helpers/generate-common-date';
-import { generateDateTime } from '@/helpers/generateDate';
+import { generateDateTime } from '@/helpers/generate-date';
 import { IToDo } from '@/interfaces/todo.interface';
 import { useCalendarStore } from '@/modules/CalendarWorkspace/store/calendar.store';
 import { getDraggableToDoRows } from '@/modules/ToDos/helpers/todo-table';

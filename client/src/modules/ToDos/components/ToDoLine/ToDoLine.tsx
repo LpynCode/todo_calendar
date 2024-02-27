@@ -8,7 +8,7 @@ import { DraggableToDoCalendarItem } from '@/modules/ToDos/components/DraggableT
 import { DraggingToDoCalendarItem } from '@/modules/ToDos/components/DraggingToDoCalendarItem/DraggingToDoCalendarItem';
 
 export const ToDoLine = ({ index, ...props }: ToDoLineProps) => {
-	const { todosTable } = useToDosStore();
+	const { todosTable, updateToDo } = useToDosStore();
 	const {
 		todo: draggableToDo,
 		todosTable: draggableToDosTable,
@@ -25,7 +25,6 @@ export const ToDoLine = ({ index, ...props }: ToDoLineProps) => {
 
 	const onDragOver = (e: DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
-		console.log('hello');
 		if (draggableToDo) {
 			const columnWidth = e.currentTarget.clientWidth / 7;
 			const tableLeftOffset = e.currentTarget.parentElement.offsetLeft;
@@ -54,6 +53,7 @@ export const ToDoLine = ({ index, ...props }: ToDoLineProps) => {
 
 	const onDrop = (e: DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
+		updateToDo(draggableToDo);
 		reset();
 	};
 
