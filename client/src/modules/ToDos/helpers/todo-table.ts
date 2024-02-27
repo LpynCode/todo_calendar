@@ -2,89 +2,92 @@ import { generateCommonDate } from '@/helpers/generate-common-date';
 import { IToDo } from '@/interfaces/todo.interface';
 import { getCalendarLines } from '@/modules/CalendarWorkspace/helpers/generateCalendar';
 import { IToDoCalendarItem } from '@/modules/ToDos/types/todo-calendar.interface';
-import { 
+import {
 	Interval,
 	areIntervalsOverlapping,
-	compareDesc, 
-	differenceInCalendarDays, 
-	endOfDay, 
-	isWithinInterval, 
-	startOfDay 
+	compareDesc,
+	differenceInCalendarDays,
+	endOfDay,
+	isWithinInterval,
+	startOfDay,
 } from 'date-fns';
 
-
-export const getToDoTable = (todos: IToDo[], calendarInterval: Interval<Date>): IToDoCalendarItem[][] => {
+export const getToDoTable = (
+	todos: IToDo[],
+	calendarInterval: Interval<Date>,
+): IToDoCalendarItem[][] => {
 	const table: IToDoCalendarItem[][] = [];
 
 	const rows = getCalendarLines(calendarInterval);
-	for(const row of rows) {
+	for (const row of rows) {
 		table.push(getToDoLine(row, todos));
 	}
 	return table;
 };
 
-export const getDraggableToDoRows = (todo: IToDo, calendarInterval: Interval<Date>): IToDoCalendarItem[] => {
+export const getDraggableToDoRows = (
+	todo: IToDo,
+	calendarInterval: Interval<Date>,
+): IToDoCalendarItem[] => {
 	const rows: IToDoCalendarItem[] = [];
 
 	const calendarRows = getCalendarLines(calendarInterval);
 
-	for(const row of calendarRows) {
+	for (const row of calendarRows) {
 		rows.push(getToDoCalendarItem(todo, row, 0));
 	}
 	return rows;
 };
 
 const getToDoLine = ({ start, end }: Interval<Date>, todos: IToDo[]): IToDoCalendarItem[] => {
-
 	const line: IToDoCalendarItem[] = [];
 
-	for(const todo of todos) {
-		if(compareDesc(end, generateCommonDate(todo.startTime)) > 0) break;
-		const topIndex =  getTopIndexInLine(todo, line);
+	for (const todo of todos) {
+		if (compareDesc(end, generateCommonDate(todo.startTime)) > 0) break;
+		const topIndex = getTopIndexInLine(todo, line);
 		const todoItem = getToDoCalendarItem(todo, { start, end }, topIndex);
-		if(todoItem) {
+		if (todoItem) {
 			line.push(todoItem);
 		}
 	}
 	return line;
 };
 
-export const getToDoCalendarItem = (todo: IToDo, interval: Interval<Date>, topIndex: number): IToDoCalendarItem => {
+export const getToDoCalendarItem = (
+	todo: IToDo,
+	interval: Interval<Date>,
+	topIndex: number,
+): IToDoCalendarItem => {
 	const commonStartTime = generateCommonDate(todo.startTime);
 	const commonEndTime = generateCommonDate(todo.endTime);
-		
-	if(isWithinInterval(commonStartTime, interval))  {
+
+	if (isWithinInterval(commonStartTime, interval)) {
 		const startIndex = todo.startTime.weekDay.number - 1;
 		const diff = differenceInCalendarDays(commonEndTime, commonStartTime);
 		const rescheduleRight = diff + startIndex >= 7;
-		const length =  rescheduleRight ? 7 - startIndex : diff + 1;  
-		return { 
-			todo, 
-			length, 
-			topIndex, 
+		const length = rescheduleRight ? 7 - startIndex : diff + 1;
+		return {
+			todo,
+			length,
+			topIndex,
 			leftIndex: startIndex,
 			rescheduledLeft: false,
 			rescheduleRight,
 		};
-	} else if(isWithinInterval(commonEndTime, interval)) {
+	} else if (isWithinInterval(commonEndTime, interval)) {
 		const length = todo.endTime.weekDay.number;
-		return { todo, 
-			length, 
-			topIndex, 
-			leftIndex: 0, 
-			rescheduledLeft: true,
-			rescheduleRight: false
-		};
-	} else if(
-		isWithinInterval(interval.start, { start: commonStartTime, end: commonEndTime }) && 
+		return { todo, length, topIndex, leftIndex: 0, rescheduledLeft: true, rescheduleRight: false };
+	} else if (
+		isWithinInterval(interval.start, { start: commonStartTime, end: commonEndTime }) &&
 		isWithinInterval(interval.end, { start: commonStartTime, end: commonEndTime })
 	) {
-		return { todo, 
-			length: 7, 
-			topIndex, 
-			leftIndex: 0, 
+		return {
+			todo,
+			length: 7,
+			topIndex,
+			leftIndex: 0,
 			rescheduledLeft: true,
-			rescheduleRight: true
+			rescheduleRight: true,
 		};
 	}
 	return null;
@@ -95,21 +98,19 @@ const getTopIndexInLine = ({ startTime, endTime }: IToDo, line: IToDoCalendarIte
 	const start = startOfDay(generateCommonDate(startTime));
 	const end = endOfDay(generateCommonDate(endTime));
 	let maxIndex = 0;
-	for( const { todo: checkToDo, topIndex: checkTopIndex } of line ) {
+	for (const { todo: checkToDo, topIndex: checkTopIndex } of line) {
 		const startCheck = generateCommonDate(checkToDo.startTime);
 		const endCheck = generateCommonDate(checkToDo.endTime);
 		maxIndex = Math.max(maxIndex, checkTopIndex);
-		if(
-			areIntervalsOverlapping(
-				{ start, end }, 
-				{ start: startCheck, end: endCheck }
-			)  && topIndex == checkTopIndex
+		if (
+			areIntervalsOverlapping({ start, end }, { start: startCheck, end: endCheck }) &&
+			topIndex == checkTopIndex
 		) {
 			topIndex++;
-			if(topIndex == maxIndex) {
+			if (topIndex == maxIndex) {
 				topIndex++;
 			}
 		}
 	}
 	return topIndex;
-}; 
+};

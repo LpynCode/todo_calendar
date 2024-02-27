@@ -8,12 +8,12 @@ export const ToDoItem = ({ item, ...props }: ToDoItemProps) => {
 		<div className={styles.item} {...props}>
 			<div className={styles.border_left}></div>
 			<div className={styles.times}>
-				<span className={styles.main_time}>{`${addZeroFormatter(item.startTime.hours)}:${addZeroFormatter(item.startTime.minutes)}`}</span>
+				<span className={styles.main_time}>
+					{`${addZeroFormatter(item.startTime.hours)}:${addZeroFormatter(item.startTime.minutes)}`}
+				</span>
 				<span className={styles.duration}>{timeDiff(item.startTime, item.endTime)}</span>
 			</div>
-			<span className={styles.name}>
-				{item.name}
-			</span>
+			<span className={styles.name}>{item.name}</span>
 		</div>
 	);
 };

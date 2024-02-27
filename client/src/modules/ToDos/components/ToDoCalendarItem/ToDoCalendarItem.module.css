@@ -7,8 +7,6 @@
     border: 1px solid var(--primary);
     border-radius: 5px;
 
-    pointer-events: all;
-
     cursor: pointer;
 }
 

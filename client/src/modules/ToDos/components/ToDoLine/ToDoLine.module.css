@@ -5,8 +5,3 @@
     right: 0;
     bottom: 0;
 }
-
-.draggable_item {
-    box-shadow: 1px 1px 3px var(--gray);
-    border: 2px solid var(--primary) !important;
-}

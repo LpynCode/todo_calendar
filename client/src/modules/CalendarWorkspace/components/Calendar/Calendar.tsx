@@ -4,7 +4,7 @@ import styles from './Calendar.module.css';
 import { DetailedHTMLProps, HTMLAttributes, useEffect } from 'react';
 import { useCalendarStore } from '../../store/calendar.store';
 import { v4 } from 'uuid';
-import { CalendarLine } from '@/modules/CalendarWorkspace/components/CalendarLine/CalendarLine';
+import { CalendarLine } from '../CalendarLine/CalendarLine';
 import { useToDosStore } from '@/modules/ToDos/store/todos.store';
 
 type CalendarProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>;

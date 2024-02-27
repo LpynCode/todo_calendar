@@ -8,6 +8,7 @@
     border: 1px solid var(--gray-light);
 
     flex: 1;
+    position: relative;
 }
 
 .isEarlier {
