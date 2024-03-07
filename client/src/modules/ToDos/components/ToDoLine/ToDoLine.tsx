@@ -39,6 +39,7 @@ export const ToDoLine = ({ index, ...props }: ToDoLineProps) => {
 
 	const onDragOver = (e: DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
+		if (isHidden) setIsHidden(false);
 		if (draggableToDo) {
 			const newColumnIndex = getColumnIndex(e.clientX);
 			const startColumnIndex = getColumnIndex(startMouseX);
