@@ -8,11 +8,7 @@ import { addZeroFormatter } from '@/helpers/add-zero-formatter';
 import { useCalendarStore } from '../../store/calendar.store';
 
 export const CalendarItem = ({ item, ...props }: CalendarItemProps) => {
-	const { selectedDay, setSelectedDay } = useCalendarStore();
-
-	const onClick = () => {
-		setSelectedDay(item);
-	};
+	const { selectedDay } = useCalendarStore();
 
 	return (
 		<div
@@ -21,7 +17,6 @@ export const CalendarItem = ({ item, ...props }: CalendarItemProps) => {
 				[styles.isEarlier]: isEarlierToday(item),
 				[styles.isToday]: compareDates(item, getTodayDate()),
 			})}
-			onClick={onClick}
 			{...props}
 		>
 			<div className={styles.title}>

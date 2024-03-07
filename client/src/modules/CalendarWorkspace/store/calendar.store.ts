@@ -16,6 +16,7 @@ interface CalendarState {
 	calendarInterval: Interval<Date>;
 	selectedDay: IDate;
 	setSelectedDay: (date: IDate) => void;
+	setSelectedDayByIndexes: (rowIndex: number, colIndex: number) => void;
 	setToday: () => void;
 	fetchCalendar: (monthIndex: number, year: number) => void;
 }
@@ -32,6 +33,9 @@ export const useCalendarStore = create<CalendarState>((set, get) => ({
 	selectedDay: today,
 	setSelectedDay: (date: IDate) => {
 		set({ selectedDay: date });
+	},
+	setSelectedDayByIndexes: (rowIndex: number, colIndex: number) => {
+		set((state) => ({ ...state, selectedDay: state.calendar.items[rowIndex][colIndex] }));
 	},
 	setToday: () => {
 		const todayDate = getTodayDate();

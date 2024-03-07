@@ -3,12 +3,16 @@ import { ToDoLineProps } from './ToDoLine.props';
 import { useToDosStore } from '../../store/todos.store';
 import { v4 } from 'uuid';
 import { useDraggableToDoStore } from '../../store/draggable-todo.store';
-import { DragEvent } from 'react';
-import { DraggableToDoCalendarItem } from '@/modules/ToDos/components/DraggableToDoCalendarItem/DraggableToDoCalendarItem';
-import { DraggingToDoCalendarItem } from '@/modules/ToDos/components/DraggingToDoCalendarItem/DraggingToDoCalendarItem';
+import { DragEvent, MouseEvent, useRef, useState } from 'react';
+import { DraggableToDoCalendarItem } from '../DraggableToDoCalendarItem/DraggableToDoCalendarItem';
+import { DraggingToDoCalendarItem } from '../DraggingToDoCalendarItem/DraggingToDoCalendarItem';
+import { useCalendarStore } from '@/modules/CalendarWorkspace';
+import { useToDosPopusStore } from '@/modules/ToDos/store/todos-popups.store';
 
 export const ToDoLine = ({ index, ...props }: ToDoLineProps) => {
 	const { todosTable, updateToDo } = useToDosStore();
+	const { setSelectedDayByIndexes } = useCalendarStore();
+	const { setOpenToCreate } = useToDosPopusStore();
 	const {
 		todo: draggableToDo,
 		todosTable: draggableToDosTable,
@@ -23,13 +27,21 @@ export const ToDoLine = ({ index, ...props }: ToDoLineProps) => {
 		setIsHidden,
 	} = useDraggableToDoStore();
 
+	const [clickTimerId, setClickTimerId] = useState(null);
+	const ref = useRef<HTMLDivElement>(null);
+
+	const getColumnIndex = (mouseX: number) => {
+		if (!ref) return;
+		const columnWidth = ref.current.clientWidth / 7;
+		const tableLeftOffset = ref.current.parentElement.offsetLeft;
+		return Math.floor((mouseX - tableLeftOffset) / columnWidth);
+	};
+
 	const onDragOver = (e: DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
 		if (draggableToDo) {
-			const columnWidth = e.currentTarget.clientWidth / 7;
-			const tableLeftOffset = e.currentTarget.parentElement.offsetLeft;
-			const newColumnIndex = Math.floor((e.clientX - tableLeftOffset) / columnWidth);
-			const startColumnIndex = Math.floor((startMouseX - tableLeftOffset) / columnWidth);
+			const newColumnIndex = getColumnIndex(e.clientX);
+			const startColumnIndex = getColumnIndex(startMouseX);
 			const newRowIndex = index;
 
 			const newColumnDiff = newColumnIndex - startColumnIndex;
@@ -41,6 +53,33 @@ export const ToDoLine = ({ index, ...props }: ToDoLineProps) => {
 				setRowDiff(newRowDiff);
 			}
 		}
+	};
+
+	const onClick = (e: MouseEvent<HTMLDivElement>) => {
+		if (!clickTimerId) {
+			setClickTimerId(
+				setTimeout(() => {
+					onOnesClick(e);
+				}, 200),
+			);
+		} else {
+			onOnesClick(e);
+			onDoubleClick(e);
+		}
+	};
+
+	const onOnesClick = (e: MouseEvent<HTMLDivElement>) => {
+		const columnIndex = getColumnIndex(e.clientX);
+		setSelectedDayByIndexes(index, columnIndex);
+
+		setClickTimerId(clearTimeout(clickTimerId));
+	};
+
+	const onDoubleClick = (e: MouseEvent<HTMLDivElement>) => {
+		/* const columnIndex = getColumnIndex(e.clientX, e); */
+		setOpenToCreate(true);
+
+		setClickTimerId(clearTimeout(clickTimerId));
 	};
 
 	const onDragLeave = () => {
@@ -63,7 +102,9 @@ export const ToDoLine = ({ index, ...props }: ToDoLineProps) => {
 			onDragEnter={onDragEnter}
 			onDragLeave={onDragLeave}
 			onDragOver={onDragOver}
+			onClick={onClick}
 			className={styles.line}
+			ref={ref}
 			{...props}
 		>
 			{todosTable[index] &&

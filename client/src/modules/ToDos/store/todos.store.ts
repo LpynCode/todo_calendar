@@ -14,6 +14,7 @@ interface ToDosState extends IAsyncState {
 	todos: IToDo[];
 	todosOnSelectedDay: IToDo[];
 	todosTable: IToDoCalendarItem[][];
+	createToDo: (todo: IToDo) => Promise<void>;
 	setTodosOnSelectedDay: (day: IDate) => void;
 	updateToDo: (todo: IToDo) => Promise<void>;
 	fetchToDos: () => Promise<void>;
@@ -35,6 +36,14 @@ export const useToDosStore = create<ToDosState>((set, get) => ({
 				}),
 			),
 		});
+	},
+	createToDo: async (todo: IToDo) => {
+		try {
+			set({ isLoading: true });
+		} catch (e) {
+			set({ errorMessage: e.response });
+			handleError(e);
+		}
 	},
 	updateToDo: async (todo: IToDo) => {
 		try {

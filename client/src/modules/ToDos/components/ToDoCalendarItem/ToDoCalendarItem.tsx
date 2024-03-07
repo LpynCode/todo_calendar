@@ -17,7 +17,7 @@ export const ToDoCalendarItem = ({
 			})}
 			style={{
 				left: `calc(100% / 7 * ${leftIndex} + ${!rescheduledLeft ? '2px' : '0px'})`,
-				top: `${CALENDAR_ITEM_HEIGHT * topIndex + topIndex * 2}px`,
+				top: `${CALENDAR_ITEM_HEIGHT * topIndex + topIndex * 2 + 30}px`,
 				width: `
             calc(
                 100% / 7 * ${length} - 
