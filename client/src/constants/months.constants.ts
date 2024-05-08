@@ -5,7 +5,7 @@ export const MONTHS: Array<IMonth> = [
 	{ number: 2, name: 'Февраль', shortName: 'фев' },
 	{ number: 3, name: 'Март', shortName: 'мар' },
 	{ number: 4, name: 'Апрель', shortName: 'апр' },
-	{ number: 5, name: 'Май', shortName: 'мая' },
+	{ number: 5, name: 'Май', shortName: 'май' },
 	{ number: 6, name: 'Июнь', shortName: 'июн' },
 	{ number: 7, name: 'Июль', shortName: 'июл' },
 	{ number: 8, name: 'Август', shortName: 'авг' },
