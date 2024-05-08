@@ -1,9 +1,17 @@
 .panel {
     display: flex;
     align-items: center;
+    border-bottom: 1px solid var(--gray-light);
+
+    justify-content: space-between;
+
+    padding: 0 20px;
+}
+
+.main {
+    display: flex;
     padding: 7px 10px;
     gap: 10px;
-    border-bottom: 1px solid var(--gray-light);
 }
 
 .up_down_btns {

@@ -65,7 +65,7 @@ export const ToDoLine = ({ index, ...props }: ToDoLineProps) => {
 			);
 		} else {
 			onOnesClick(e);
-			onDoubleClick(e);
+			onDoubleClick();
 		}
 	};
 
@@ -76,7 +76,7 @@ export const ToDoLine = ({ index, ...props }: ToDoLineProps) => {
 		setClickTimerId(clearTimeout(clickTimerId));
 	};
 
-	const onDoubleClick = (e: MouseEvent<HTMLDivElement>) => {
+	const onDoubleClick = () => {
 		/* const columnIndex = getColumnIndex(e.clientX, e); */
 		setOpenToCreate(true);
 

@@ -9,7 +9,7 @@ export class ToDosService {
 	constructor(private readonly prismaService: PrismaService) {}
 
 	async createToDo(data: CreateToDoDto) {
-		return this.prismaService.toDoModel.create({ data: { ...data } });
+		return reformatToDo(await this.prismaService.toDoModel.create({ data: { ...data } }));
 	}
 
 	async updateToDo({ id, userId, ...data }: UpdateToDoDto) {

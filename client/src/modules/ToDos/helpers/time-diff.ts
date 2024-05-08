@@ -8,9 +8,9 @@ export const timeDiff = (startTime: IDateTime, endTime: IDateTime) => {
 	const { days, hours, minutes } = intervalToDuration({ start, end });
 
 	if (days > 0) {
-		return `${days}дн ${hours}ч`;
+		return `${days}дн ${hours || 0}ч`;
 	} else if (hours > 0) {
-		return `${hours}ч ${minutes}мин`;
+		return `${hours}ч ${minutes || 0}мин`;
 	}
 	return `${minutes}мин`;
 };

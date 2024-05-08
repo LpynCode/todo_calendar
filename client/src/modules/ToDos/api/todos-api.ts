@@ -13,3 +13,10 @@ export const updateToDo = async (toDo: IToDo) => {
 	const { data } = await $api.put('/todos/update', { ...toDo, startTime, endTime });
 	return data;
 };
+
+export const createToDo = async (toDo: Omit<IToDo, 'id'>) => {
+	const startTime = generateCommonDate(toDo.startTime);
+	const endTime = generateCommonDate(toDo.endTime);
+	const { data } = await $api.post('/todos/create', { ...toDo, startTime, endTime });
+	return data;
+};

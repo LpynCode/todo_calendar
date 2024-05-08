@@ -1,7 +1,7 @@
 .popup_bg {
 	display: flex;
 	position: fixed;
-	inset:0;
+	inset: 0;
 	align-items: center;
 	justify-content: center;
 	background: rgb(0 0 0 / 50%);
@@ -9,8 +9,7 @@
 }
 
 .popup {
-	width: 60%;
-	height: 80%;
+	width: 50%;
 	background-color: var(--white);
 	border-radius: 20px;
 	padding: 30px;
