@@ -1,4 +1,5 @@
 export { ToDoList } from './components/ToDoList/ToDoList';
 export { DayInfo } from './components/DayInfo/DayInfo';
 
-export { useDraggableToDoStore } from './store/draggable-todo.store';
+export { useToDosStore } from './store/todos.store';
+export { useToDosPopusStore } from './store/todos-popups.store';

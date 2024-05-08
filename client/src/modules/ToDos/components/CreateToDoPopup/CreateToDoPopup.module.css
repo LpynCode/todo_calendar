@@ -1,0 +1,17 @@
+.popup_bg {
+	display: flex;
+	position: fixed;
+	inset: 0;
+	align-items: center;
+	justify-content: center;
+	background: rgb(0 0 0 / 50%);
+	z-index: 3;
+}
+
+.popup {
+	width: 50%;
+	background-color: var(--white);
+	border-radius: 20px;
+	padding: 30px;
+	text-align: center;
+}

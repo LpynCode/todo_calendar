@@ -1,6 +1,5 @@
 .card {
     background-color: var(--white);
-    cursor: pointer;
     padding: 8px 5px;
 
     font-size: 13px;
