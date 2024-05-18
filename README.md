@@ -2,6 +2,7 @@
 * Backend:
   - cd server
   - npm ci
+  - npm run db:migrate:dev
   - npm run dev
 * Frontend
   - cd client
